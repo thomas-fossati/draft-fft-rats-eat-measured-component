@@ -1,0 +1,269 @@
+
+
+
+
+Remote ATtestation ProcedureS                                   S. Frost
+Internet-Draft                                                       Arm
+Intended status: Standards Track                              T. Fossati
+Expires: 11 August 2024                                           Linaro
+                                                           H. Tschofenig
+                                                                 Siemens
+                                                         8 February 2024
+
+
+                   A Measured Component Claim for EAT
+              draft-fft-rats-eat-measured-component-latest
+
+Abstract
+
+   This document defines ...
+
+Discussion Venues
+
+   This note is to be removed before publishing as an RFC.
+
+   Discussion of this document takes place on the Remote ATtestation
+   ProcedureS Working Group mailing list (rats@ietf.org), which is
+   archived at https://mailarchive.ietf.org/arch/browse/rats/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/thomas-fossati/draft-fft-rats-eat-measured-
+   component.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 11 August 2024.
+
+Copyright Notice
+
+   Copyright (c) 2024 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+   2.  Conventions and Definitions
+   3.  Measured Component
+   4.  Examples
+   5.  Implementation Status
+   6.  IANA Considerations
+     6.1.  CWT measured-component Claim Registration
+     6.2.  JWT measured-component Claim Registration
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
+   Appendix A.  Collected CDDL
+   Appendix B.  Open Issues
+   Acknowledgments
+   Authors' Addresses
+
+1.  Introduction
+
+   EAT [I-D.ietf-rats-eat] ...
+
+2.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+   In this document, CDDL [RFC8610] [RFC9165] is used to describe the
+   data formats.
+
+   The reader is assumed to be familiar with the vocabulary and concepts
+   defined in [RFC9334].
+
+3.  Measured Component
+
+   key-0:
+      TODO
+
+   key-1:
+      TODO
+
+4.  Examples
+
+   TODO
+
+5.  Implementation Status
+
+   This section records the status of known implementations of the
+   protocol defined by this specification at the time of posting of this
+   Internet-Draft, and is based on a proposal described in [RFC7942].
+   The description of implementations in this section is intended to
+   assist the IETF in its decision processes in progressing drafts to
+   RFCs.  Please note that the listing of any individual implementation
+   here does not imply endorsement by the IETF.  Furthermore, no effort
+   has been spent to verify the information presented here that was
+   supplied by IETF contributors.  This is not intended as, and must not
+   be construed to be, a catalog of available implementations or their
+   features.  Readers are advised to note that other implementations may
+   exist.  According to [RFC7942], "this will allow reviewers and
+   working groups to assign due consideration to documents that have the
+   benefit of running code, which may serve as evidence of valuable
+   experimentation and feedback that have made the implemented protocols
+   more mature.  It is up to the individual working groups to use this
+   information as they see fit".
+
+6.  IANA Considerations
+
+
+   // RFC Editor: replace "RFCthis" with the RFC number assigned to this
+   document.
+
+6.1.  CWT measured-component Claim Registration
+
+   IANA is requested to add a new measured-component claim to the "CBOR
+   Web Token (CWT) Claims" registry [IANA.cwt] as follows:
+
+   *  Claim Name: measured-component
+
+   *  Claim Description: Measured Component
+
+   *  Claim Key: TBD
+
+   *  Claim Value Type(s): CBOR Map
+
+   *  Change Controller: IETF
+
+   *  Specification Document(s): Section 3 of RFCthis
+
+   The suggested value for the Claim Key is TBD
+
+6.2.  JWT measured-component Claim Registration
+
+   IANA is requested to add a new measured-component claim to the "JSON
+   Web Token Claims" sub-registry of the "JSON Web Token (JWT)" registry
+   [IANA.jwt] as follows:
+
+   *  Claim Name: measured-component
+
+   *  Claim Description: Measured Component
+
+   *  Claim Value Type(s): JSON object
+
+   *  Change Controller: IETF
+
+   *  Specification Document(s): Section 3 of RFCthis
+
+7.  References
+
+7.1.  Normative References
+
+   [BCP26]    Cotton, M., Leiba, B., and T. Narten, "Guidelines for
+              Writing an IANA Considerations Section in RFCs", BCP 26,
+              RFC 8126, DOI 10.17487/RFC8126, June 2017,
+              <https://www.rfc-editor.org/rfc/rfc8126>.
+
+   [I-D.ietf-rats-eat]
+              Lundblade, L., Mandyam, G., O'Donoghue, J., and C.
+              Wallace, "The Entity Attestation Token (EAT)", Work in
+              Progress, Internet-Draft, draft-ietf-rats-eat-25, 15
+              January 2024, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-rats-eat-25>.
+
+   [IANA.cwt] IANA, "CBOR Web Token (CWT) Claims",
+              <http://www.iana.org/assignments/cwt>.
+
+   [IANA.jwt] IANA, "JSON Web Token (JWT)",
+              <http://www.iana.org/assignments/jwt>.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC8610]  Birkholz, H., Vigano, C., and C. Bormann, "Concise Data
+              Definition Language (CDDL): A Notational Convention to
+              Express Concise Binary Object Representation (CBOR) and
+              JSON Data Structures", RFC 8610, DOI 10.17487/RFC8610,
+              June 2019, <https://www.rfc-editor.org/rfc/rfc8610>.
+
+   [RFC9165]  Bormann, C., "Additional Control Operators for the Concise
+              Data Definition Language (CDDL)", RFC 9165,
+              DOI 10.17487/RFC9165, December 2021,
+              <https://www.rfc-editor.org/rfc/rfc9165>.
+
+   [RFC9334]  Birkholz, H., Thaler, D., Richardson, M., Smith, N., and
+              W. Pan, "Remote ATtestation procedureS (RATS)
+              Architecture", RFC 9334, DOI 10.17487/RFC9334, January
+              2023, <https://www.rfc-editor.org/rfc/rfc9334>.
+
+   [STD90]    Bray, T., Ed., "The JavaScript Object Notation (JSON) Data
+              Interchange Format", STD 90, RFC 8259,
+              DOI 10.17487/RFC8259, December 2017,
+              <https://www.rfc-editor.org/rfc/rfc8259>.
+
+   [STD94]    Bormann, C. and P. Hoffman, "Concise Binary Object
+              Representation (CBOR)", STD 94, RFC 8949,
+              DOI 10.17487/RFC8949, December 2020,
+              <https://www.rfc-editor.org/rfc/rfc8949>.
+
+7.2.  Informative References
+
+   [RFC7942]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
+              Code: The Implementation Status Section", BCP 205,
+              RFC 7942, DOI 10.17487/RFC7942, July 2016,
+              <https://www.rfc-editor.org/rfc/rfc7942>.
+
+Appendix A.  Collected CDDL
+
+   TODO
+
+Appendix B.  Open Issues
+
+   The list of currently open issues for this documents can be found at
+   https://github.com/thomas-fossati/draft-fft-rats-eat-measured-
+   component/issues.
+
+
+   // Note to RFC Editor: please remove before publication.
+
+Acknowledgments
+
+   The authors would like to thank TBD for their comments, reviews and
+   suggestions.
+
+Authors' Addresses
+
+   Simon Frost
+   Arm
+   Email: Simon.Frost@arm.com
+
+
+   Thomas Fossati
+   Linaro
+   Email: Thomas.Fossati@linaro.org
+
+
+   Hannes Tschofenig
+   Siemens
+   Email: Hannes.Tschofenig@siemens.com
