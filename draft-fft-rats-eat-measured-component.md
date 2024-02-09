@@ -67,7 +67,7 @@ A measured component information element includes the computed digest on the sof
 
 | IE | Description | Requirement Level |
 |----|-------------|-------------------|
-| Component Name | The name given to a measured component. It is important that this name remains consistent across different releases to allow for better tracking of the same measured item across updates. When combined with a consistent versioning scheme, it enables better signaling from the appraisal procedure to the relying parties. | REQUIRED |
+| Component Name | The name given to a measured component. This name should remain consistent across different releases to allow for better tracking of the same measured item across updates. When combined with a consistent versioning scheme, it enables better signalling from the appraisal procedure to the relying parties. | REQUIRED |
 | Component Version | A value representing the specific release or development version of the measured component.  Using Semantic Versioning is RECOMMENDED. | OPTIONAL |
 | Digest Value | Hash of the invariant part of the component that is loaded in memory at startup time. | REQUIRED |
 | Digest Algorithm | Hash algorithm used to compute the Digest Value. | REQUIRED |
