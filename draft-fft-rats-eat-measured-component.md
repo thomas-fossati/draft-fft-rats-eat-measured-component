@@ -53,13 +53,13 @@ entity:
 
 --- abstract
 
-This document defines ...
+This document defines a EAT claim to carry information about measured components.
 
 --- middle
 
 # Introduction
 
-EAT {{-rats-eat}} ...
+This document defines a EAT {{-rats-eat}} claim to carry information about measured components.
 
 # Conventions and Definitions
 
@@ -69,30 +69,39 @@ In this document, CDDL {{-cddl}} {{-cddlplus}} is used to describe the data form
 
 The reader is assumed to be familiar with the vocabulary and concepts defined in {{-rats-arch}}.
 
-# Measured Component {#measured-component}
+# Information Model {#measured-component}
 
-{: vspace="0"}
+A measured component information element includes the computed digest on the software or configuration payload, along with metadata that helps in identifying the measurement and the authorizing entity for component installation.
 
-`key-0`:
-: TODO
+{{tab-mc-info-elems}} describes the information model of a measured component.
 
-`key-1`:
-: TODO
+| IE | Description | Requirement Level |
+|----|-------------|-------------------|
+| Component Name | The name given to a measured component. It is important that this name remains consistent across different releases to allow for better tracking of the same measured item across updates. When combined with a consistent versioning scheme, it enables better signaling from the appraisal procedure to the relying parties. | REQUIRED |
+| Component Version | A value representing the specific release or development version of the measured component.  Using Semantic Versioning is RECOMMENDED. | OPTIONAL |
+| Digest Value | Hash of the invariant part of the component that is loaded in memory at startup time. | REQUIRED |
+| Digest Algorithm | Hash algorithm used to compute the Digest Value. | REQUIRED |
+| Signer | A unique identifier of the entity authorizing installation measured component. | REQUIRED |
+| Countersigners | One or more unique identifiers of further authorizing entities for component installation | OPTIONAL |
+{: #tab-mc-info-elems title="Measured Component Information Elements"}
+
+# Data Model
+
+Recycle from:
+
+* [Initial sketch](https://github.com/EntrustCorporation/draft-x509-evidence/issues/2)
+* [PSA SW components](https://www.ietf.org/archive/id/draft-tschofenig-rats-psa-token-20.html#section-4.4.1)
+* [COSE Key Thumbprint (signer ID)](https://datatracker.ietf.org/doc/draft-ietf-cose-key-thumbprint)
+* [CoSWID SW name and version](https://www.rfc-editor.org/rfc/rfc9393.html#section-2.3)
+* [CoRIM digest](https://www.ietf.org/archive/id/draft-ietf-rats-corim-03.html#section-1.3.8)
+
+Also consider:
+
+* [New claims design considerations](https://www.ietf.org/archive/id/draft-ietf-rats-eat-25.html#appendix-E)
 
 # Examples
 
 TODO
-
-# Implementation Status
-
-This section records the status of known implementations of the protocol defined by this specification at the time of posting of this Internet-Draft, and is based on a proposal described in {{-impl-status}}.
-The description of implementations in this section is intended to assist the IETF in its decision processes in progressing drafts to RFCs.
-Please note that the listing of any individual implementation here does not imply endorsement by the IETF.
-Furthermore, no effort has been spent to verify the information presented here that was supplied by IETF contributors.
-This is not intended as, and must not be construed to be, a catalog of available implementations or their features.
-Readers are advised to note that other implementations may exist.
-According to {{-impl-status}}, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature.
-It is up to the individual working groups to use this information as they see fit".
 
 # IANA Considerations
 
@@ -141,4 +150,3 @@ TBD
 for their comments, reviews and suggestions.
 
 [^rfced]: RFC Editor:
-
