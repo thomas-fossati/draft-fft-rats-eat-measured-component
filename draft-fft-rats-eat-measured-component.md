@@ -29,24 +29,14 @@ author:
    email: Hannes.Tschofenig@siemens.com
 
 normative:
-  STD90:
-    -: json
-    =: RFC8259
   RFC8610: cddl
   RFC9165: cddlplus
-  RFC9334: rats-arch
-  STD94:
-    -: cbor
-    =: RFC8949
   IANA.cwt:
   IANA.jwt:
-  BCP26:
-    -: ianacons
-    =: RFC8126
   I-D.ietf-rats-eat: rats-eat
 
 informative:
-  RFC7942: impl-status
+  RFC9334: rats-arch
 
 entity:
   SELF: "RFCthis"
