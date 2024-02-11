@@ -1,0 +1,28 @@
+measured-component = [
+  id:               component-id
+  measurement:      corim.digest
+  signer:           ckt
+  ? countersigners: [ + ckt ]
+]
+
+; COSE Key Thumbprint
+ckt = bytes
+
+component-id = [
+  name:      text
+  ? version: version
+]
+
+;# import $version-scheme from rfc9393 as coswid
+
+version = [
+  val:      text 
+  ? scheme: coswid.$version-scheme
+]
+
+; eventually: ";#import digest from rfcxxxx as corim"
+
+corim.digest = [
+  alg: (int / text)
+  val: bytes
+]

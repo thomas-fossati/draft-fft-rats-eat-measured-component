@@ -31,12 +31,17 @@ author:
 normative:
   RFC8610: cddl
   RFC9165: cddlplus
+  I-D.ietf-cbor-cddl-modules: cddlmod
+  RFC9393: coswid
   IANA.cwt:
   IANA.jwt:
   I-D.ietf-rats-eat: rats-eat
+  I-D.ietf-cose-key-thumbprint: cose-key-thumbprint
+  I-D.ietf-rats-corim: corim
 
 informative:
   RFC9334: rats-arch
+  I-D.tschofenig-rats-psa-token: psa-token
 
 entity:
   SELF: "RFCthis"
@@ -55,7 +60,7 @@ This document defines a EAT {{-rats-eat}} claim to carry information about measu
 
 {::boilerplate bcp14-tagged}
 
-In this document, CDDL {{-cddl}} {{-cddlplus}} is used to describe the data formats.
+In this document, CDDL {{-cddl}} {{-cddlplus}} {{-cddlmod}} is used to describe the data formats.
 
 The reader is assumed to be familiar with the vocabulary and concepts defined in {{-rats-arch}}.
 
@@ -67,27 +72,29 @@ A measured component information element includes the computed digest on the sof
 
 | IE | Description | Requirement Level |
 |----|-------------|-------------------|
-| Component Name | The name given to a measured component. This name should remain consistent across different releases to allow for better tracking of the same measured item across updates. When combined with a consistent versioning scheme, it enables better signalling from the appraisal procedure to the relying parties. | REQUIRED |
+| Component Name | The name given to a measured component. It is important that this name remains consistent across different releases to allow for better tracking of the same measured item across updates. When combined with a consistent versioning scheme, it enables better signaling from the appraisal procedure to the relying parties. | REQUIRED |
 | Component Version | A value representing the specific release or development version of the measured component.  Using Semantic Versioning is RECOMMENDED. | OPTIONAL |
 | Digest Value | Hash of the invariant part of the component that is loaded in memory at startup time. | REQUIRED |
 | Digest Algorithm | Hash algorithm used to compute the Digest Value. | REQUIRED |
-| Signer | A unique identifier of the entity authorizing installation measured component. | REQUIRED |
+| Signer | A unique identifier of the entity authorizing installation of the measured component. | REQUIRED |
 | Countersigners | One or more unique identifiers of further authorizing entities for component installation | OPTIONAL |
 {: #tab-mc-info-elems title="Measured Component Information Elements"}
 
 # Data Model
 
-Recycle from:
+The data model is inspired by the "PSA software component" claim ({{Section 4.4.1 of -psa-token}}), which has been slightly refactored to take into account the recommendations about new EAT claims design in {{Appendix E of -rats-eat}}.
 
-* [Initial sketch](https://github.com/EntrustCorporation/draft-x509-evidence/issues/2)
-* [PSA SW components](https://www.ietf.org/archive/id/draft-tschofenig-rats-psa-token-20.html#section-4.4.1)
-* [COSE Key Thumbprint (signer ID)](https://datatracker.ietf.org/doc/draft-ietf-cose-key-thumbprint)
-* [CoSWID SW name and version](https://www.rfc-editor.org/rfc/rfc9393.html#section-2.3)
-* [CoRIM digest](https://www.ietf.org/archive/id/draft-ietf-rats-corim-03.html#section-1.3.8)
+The following types and semantics have been reused:
 
-Also consider:
+* COSE Key Thumbprint {{-cose-key-thumbprint}}, for signer and countersigners;
+* CoSWID software name and version {{-coswid}}, for component name and version;
+* CoRIM digest {{-corim}}, for digest value and algorithm.
 
-* [New claims design considerations](https://www.ietf.org/archive/id/draft-ietf-rats-eat-25.html#appendix-E)
+## CDDL
+
+~~~ cddl
+{::include cddl/measured-component.cddlc}
+~~~
 
 # Examples
 

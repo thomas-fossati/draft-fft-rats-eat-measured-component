@@ -9,3 +9,9 @@ else
 	git clone -q --depth 10 $(CLONE_ARGS) \
 	    -b main https://github.com/martinthomson/i-d-template $(LIBDIR)
 endif
+
+$(drafts_xml):: cddl/measured-component.cddl
+
+cddl/measured-component.cddl: cddl/measured-component.cddlc; $(MAKE) -C cddl
+
+clean:: ; $(MAKE) -C cddl clean
