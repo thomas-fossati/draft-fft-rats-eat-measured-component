@@ -98,7 +98,9 @@ The following types and semantics have been reused:
 
 # Examples
 
-TODO
+~~~ cbor-edn
+{::include cddl/ex1.diag}
+~~~
 
 # IANA Considerations
 
