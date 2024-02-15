@@ -1,7 +1,7 @@
 ---
 v: 3
 
-title: A Measured Component Claim for EAT
+title: EAT Measured Component
 abbrev: "EAT Measured Component"
 docname: draft-fft-rats-eat-measured-component-latest
 category: std
@@ -11,7 +11,7 @@ submissionType: IETF
 ipr: trust200902
 area: "Security"
 workgroup: "Remote ATtestation ProcedureS"
-keyword: [ EAT, claim, measured, component ]
+keyword: [ EAT, measurements, claim, measured, component ]
 
 stand_alone: yes
 smart_quotes: no
@@ -29,12 +29,11 @@ author:
    email: Hannes.Tschofenig@siemens.com
 
 normative:
+  RFC7252: coap
   RFC8610: cddl
   RFC9165: cddlplus
   I-D.ietf-cbor-cddl-modules: cddlmod
   RFC9393: coswid
-  IANA.cwt:
-  IANA.jwt:
   I-D.ietf-rats-eat: rats-eat
   I-D.ietf-cose-key-thumbprint: cose-key-thumbprint
   I-D.ietf-rats-corim: corim
@@ -48,13 +47,20 @@ entity:
 
 --- abstract
 
-This document defines a EAT claim to carry information about measured components.
+This document defines a "measured components" format that can be used with the EAT Measurements claim.
 
 --- middle
 
 # Introduction
 
-This document defines a EAT {{-rats-eat}} claim to carry information about measured components.
+{{Section 4.2.6 of -rats-eat}} defines a Measurements claim that:
+
+> "[c]ontains descriptions, lists, evidence or measurements of the software that exists on the entity or any other measurable subsystem of the entity."
+
+This claim allows for different measurement formats, each identified by a different CoAP Content-Format ({{Section 12.3 of -coap}}).
+Initially, the only specified format is CoSWID of type "evidence", as per {{Section 2.9.4 of -coswid}}.
+
+This document introduces the "measured components" format that can be used with the EAT Measurements claim in addition or as an alternative to CoSWID.
 
 # Conventions and Definitions
 
@@ -92,42 +98,162 @@ The following types and semantics have been reused:
 
 ## CDDL
 
+The `measured-component` data item:
+
 ~~~ cddl
 {::include cddl/measured-component.cddlc}
 ~~~
 
+The CDDL extending the EAT Measurements format:
+
+~~~ cddl
+{::include cddl/eat-plug.cddl}
+~~~
+
+The associated `content-type` MUST contain the CoAP Content-Format assigned by IANA for the `application/measured-component+cbor`.
+When the `content-type` is instead the Content-Format for `application/measured-component+json`, the `content-format` contains the base64url-encoded value of TBD.
+
 # Examples
+
+The examples are CBOR only.
+JSON examples will be added in a future version of this document.
+
+The example in {{ex-1}} is a measured component with all the fields populated.
 
 ~~~ cbor-edn
 {::include cddl/ex1.diag}
 ~~~
+{: #ex-1 title="Complete Measured Component"}
+
+The example in {{ex-eat-1}} is the same measured component as above but used as the format of a `measurements` claim in a EAT claims-set.
+Note that the example uses a CoAP Content-Format value from the experimental range (65000), which will change to the value assigned by IANA for the `application/measured-component+cbor` Content-Format.
+
+~~~ cbor-edn
+{::include cddl/eat-ex1.diag}
+~~~
+{: #ex-eat-1 title="EAT Measurements Claim using a Measured Component"}
+
+# Security Considerations {#seccons}
+
+TODO
 
 # IANA Considerations
 
 [^rfced] replace "{{&SELF}}" with the RFC number assigned to this document.
 
-## CWT `measured-component` Claim Registration
+## Media Types Registrations
 
-IANA is requested to add a new `measured-component` claim to the "CBOR Web Token (CWT) Claims" registry {{IANA.cwt}} as follows:
+IANA is requested to add the following media types to the "Media Types" registry {{!IANA.media-types}}.
 
-* Claim Name: measured-component
-* Claim Description: Measured Component
-* Claim Key: TBD
-* Claim Value Type(s): CBOR Map
-* Change Controller: IETF
-* Specification Document(s): {{measured-component}} of {{&SELF}}
+| Name | Template | Reference |
+|-----------------|-------------------------|-----------|
+| `mc+cbor` | `application/measured-component+cbor` | {{&SELF}} |
+| `mc+json` | `application/measured-component+json` | {{&SELF}} |
+{: #tab-mc-regs title="Measured Component Media Types"}
 
-The suggested value for the Claim Key is TBD
+### `application/measured-component+cbor`
 
-## JWT `measured-component` Claim Registration
+{:compact}
+Type name:
+: application
 
-IANA is requested to add a new `measured-component` claim to the "JSON Web Token Claims" sub-registry of the "JSON Web Token (JWT)" registry {{IANA.jwt}} as follows:
+Subtype name:
+: measured-component+cbor
 
-* Claim Name: measured-component
-* Claim Description: Measured Component
-* Claim Value Type(s): JSON object
-* Change Controller: IETF
-* Specification Document(s): {{measured-component}} of {{&SELF}}
+Required parameters:
+: n/a
+
+Optional parameters:
+: n/a
+
+Encoding considerations:
+: binary (CBOR)
+
+Security considerations:
+: {{seccons}} of {{&SELF}}
+
+Interoperability considerations:
+: n/a
+
+Published specification:
+: {{&SELF}}
+
+Applications that use this media type:
+: Attesters, Verifiers and Relying Parties
+
+Fragment identifier considerations:
+: The syntax and semantics of fragment identifiers are as specified for "application/cbor". (No fragment identification syntax is currently defined for "application/cbor".)
+
+Person & email address to contact for further information:
+: RATS WG mailing list (rats@ietf.org)
+
+Intended usage:
+: COMMON
+
+Restrictions on usage:
+: none
+
+Author/Change controller:
+: IETF
+
+Provisional registration:
+: no
+
+### `application/measured-component+json`
+
+{:compact}
+Type name:
+: application
+
+Subtype name:
+: measured-component+json
+
+Required parameters:
+: n/a
+
+Optional parameters:
+: n/a
+
+Encoding considerations:
+: binary (JSON is UTF-8-encoded text)
+
+Security considerations:
+: {{seccons}} of {{&SELF}}
+
+Interoperability considerations:
+: n/a
+
+Published specification:
+: {{&SELF}}
+
+Applications that use this media type:
+: Attesters, Verifiers and Relying Parties
+
+Fragment identifier considerations:
+: The syntax and semantics of fragment identifiers are as specified for "application/json". (No fragment identification syntax is currently defined for "application/json".)
+
+Person & email address to contact for further information:
+: RATS WG mailing list (rats@ietf.org)
+
+Intended usage:
+: COMMON
+
+Restrictions on usage:
+: none
+
+Author/Change controller:
+: IETF
+
+Provisional registration:
+: no
+
+## Measured Component Content-Format Registrations
+
+IANA is requested to register two Content-Format numbers in the "CoAP Content-Formats" sub-registry, within the "Constrained RESTful Environments (CoRE) Parameters" Registry {{!IANA.core-parameters}}, as follows:
+
+| Content-Type | Content Coding | ID | Reference |
+| application/measured-component+cbor | - | TBD1 | {{&SELF}} |
+| application/measured-component+json | - | TBD2 | {{&SELF}} |
 
 --- back
 

@@ -1,0 +1,39 @@
+$$Claims-Set-Claims //= (
+  measurements-label => measurements-type
+)
+
+measurements-label = JC< "measurements", 273 >
+
+measurements-type = [+ measurements-format]
+
+measurements-format = [
+  content-type:   coap-content-format,
+  content-format: JC< $measurements-body-json, $measurements-body-cbor >
+]
+
+; $measurements-body-cbor /= bytes .cbor untagged-coswid
+$measurements-body-cbor /= bytes .cbor measured-component
+$measurements-body-json /= base64-url-text
+
+Claims-Set = {
+  $$Claims-Set-Claims
+}
+
+untagged-coswid = ~coswid.concise-swid-tag
+
+; common data types §7.2.1
+
+base64-url-text = tstr .regexp "[A-Za-z0-9_-]+"
+
+coap-content-format = uint .le 65535
+
+JSON-ONLY<J> = J .feature "json"
+CBOR-ONLY<C> = C .feature "cbor"
+
+JC<J,C> = JSON-ONLY<J> / CBOR-ONLY<C>
+
+; import
+
+;# import rfc9393 as coswid
+
+coswid.one-or-more<T> = T / [ 2* T ]

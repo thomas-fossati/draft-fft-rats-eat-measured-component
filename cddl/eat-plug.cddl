@@ -1,0 +1,1 @@
+$measurements-body-cbor /= bytes .cbor measured-component
