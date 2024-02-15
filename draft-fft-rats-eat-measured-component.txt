@@ -5,19 +5,19 @@
 Remote ATtestation ProcedureS                                   S. Frost
 Internet-Draft                                                       Arm
 Intended status: Standards Track                              T. Fossati
-Expires: 14 August 2024                                           Linaro
+Expires: 18 August 2024                                           Linaro
                                                            H. Tschofenig
                                                                  Siemens
-                                                        11 February 2024
+                                                        15 February 2024
 
 
-                   A Measured Component Claim for EAT
+                         EAT Measured Component
               draft-fft-rats-eat-measured-component-latest
 
 Abstract
 
-   This document defines a EAT claim to carry information about measured
-   components.
+   This document defines a "measured components" format that can be used
+   with the EAT Measurements claim.
 
 Discussion Venues
 
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 August 2024.
+   This Internet-Draft will expire on 18 August 2024.
 
 Copyright Notice
 
@@ -70,12 +70,15 @@ Table of Contents
    4.  Data Model
      4.1.  CDDL
    5.  Examples
-   6.  IANA Considerations
-     6.1.  CWT measured-component Claim Registration
-     6.2.  JWT measured-component Claim Registration
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+   6.  Security Considerations
+   7.  IANA Considerations
+     7.1.  Media Types Registrations
+       7.1.1.  application/measured-component+cbor
+       7.1.2.  application/measured-component+json
+     7.2.  Measured Component Content-Format Registrations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Appendix A.  Collected CDDL
    Appendix B.  Open Issues
    Acknowledgments
@@ -83,8 +86,21 @@ Table of Contents
 
 1.  Introduction
 
-   This document defines a EAT [I-D.ietf-rats-eat] claim to carry
-   information about measured components.
+   Section 4.2.6 of [I-D.ietf-rats-eat] defines a Measurements claim
+   that:
+
+      "[c]ontains descriptions, lists, evidence or measurements of the
+      software that exists on the entity or any other measurable
+      subsystem of the entity."
+
+   This claim allows for different measurement formats, each identified
+   by a different CoAP Content-Format (Section 12.3 of [RFC7252]).
+   Initially, the only specified format is CoSWID of type "evidence", as
+   per Section 2.9.4 of [RFC9393].
+
+   This document introduces the "measured components" format that can be
+   used with the EAT Measurements claim in addition or as an alternative
+   to CoSWID.
 
 2.  Conventions and Definitions
 
@@ -169,6 +185,8 @@ Table of Contents
 
 4.1.  CDDL
 
+   The measured-component data item:
+
    measured-component = [
      id:               component-id
      measurement:      corim.digest
@@ -198,11 +216,27 @@ Table of Contents
      val: bytes
    ]
 
+   The CDDL extending the EAT Measurements format:
+
+   $measurements-body-cbor /= bytes .cbor measured-component
+
+   The associated content-type MUST contain the CoAP Content-Format
+   assigned by IANA for the application/measured-component+cbor.  When
+   the content-type is instead the Content-Format for application/
+   measured-component+json, the content-format contains the base64url-
+   encoded value of TBD.
+
 5.  Examples
+
+   The examples are CBOR only.  JSON examples will be added in a future
+   version of this document.
+
+   The example in Figure 1 is a measured component with all the fields
+   populated.
 
    [
      / id / [
-       / name /    "boot loader X",
+       / name / "boot loader X",
        / version / [
          "1.2.3rc2",
          16384 / semver /
@@ -211,60 +245,149 @@ Table of Contents
      / measurement / [
        / alg / "sha-256",
        / val / h'3996003d486fb91ffb056f7d03f2b2992b215b31dbe7af4b37
-   3431fc7d319da3'
+                 3431fc7d319da3'
      ],
      / signer / h'492e9b676c21f6012b1ceeb9032feb4141a880797355f6675
-   015ec59c51ca1ec',
+                 015ec59c51ca1ec',
      / countersigners / [
        h'4277bb97ba7b51577a0d38151d3e08b40bdf946753f5b5bdeb814d6ff5
-   7a8a5e'
+         7a8a5e'
      ]
    ]
 
-6.  IANA Considerations
+                   Figure 1: Complete Measured Component
+
+   The example in Figure 2 is the same measured component as above but
+   used as the format of a measurements claim in a EAT claims-set.  Note
+   that the example uses a CoAP Content-Format value from the
+   experimental range (65000), which will change to the value assigned
+   by IANA for the application/measured-component+cbor Content-Format.
+
+   {
+     273: [
+       [
+         65000, / using a CoAP C-F from the experimental range /
+         <<
+           [
+             / id / [
+               / name / "boot loader X",
+               / version / [
+                 "1.2.3rc2",
+                 16384 / semver /
+               ]
+             ],
+             / measurement / [
+               / alg / "sha-256",
+               / val / h'3996003d486fb91ffb056f7d03f2b2992b215b31db
+                         e7af4b373431fc7d319da3'
+             ],
+             / signer / h'492e9b676c21f6012b1ceeb9032feb4141a880797
+                         355f6675015ec59c51ca1ec',
+             / countersigners / [
+               h'4277bb97ba7b51577a0d38151d3e08b40bdf946753f5b5bdeb
+                 814d6ff57a8a5e'
+             ]
+           ]
+         >>
+       ]
+     ]
+   }
+
+        Figure 2: EAT Measurements Claim using a Measured Component
+
+6.  Security Considerations
+
+   TODO
+
+7.  IANA Considerations
 
 
    // RFC Editor: replace "RFCthis" with the RFC number assigned to this
    document.
 
-6.1.  CWT measured-component Claim Registration
+7.1.  Media Types Registrations
 
-   IANA is requested to add a new measured-component claim to the "CBOR
-   Web Token (CWT) Claims" registry [IANA.cwt] as follows:
+   IANA is requested to add the following media types to the "Media
+   Types" registry [IANA.media-types].
 
-   *  Claim Name: measured-component
+       +=========+=====================================+===========+
+       | Name    | Template                            | Reference |
+       +=========+=====================================+===========+
+       | mc+cbor | application/measured-component+cbor | RFCthis   |
+       +---------+-------------------------------------+-----------+
+       | mc+json | application/measured-component+json | RFCthis   |
+       +---------+-------------------------------------+-----------+
 
-   *  Claim Description: Measured Component
+                  Table 2: Measured Component Media Types
 
-   *  Claim Key: TBD
+7.1.1.  application/measured-component+cbor
 
-   *  Claim Value Type(s): CBOR Map
+   Type name:  application
+   Subtype name:  measured-component+cbor
+   Required parameters:  n/a
+   Optional parameters:  n/a
+   Encoding considerations:  binary (CBOR)
+   Security considerations:  Section 6 of RFCthis
+   Interoperability considerations:  n/a
+   Published specification:  RFCthis
+   Applications that use this media type:  Attesters, Verifiers and
+      Relying Parties
+   Fragment identifier considerations:  The syntax and semantics of
+      fragment identifiers are as specified for "application/cbor".  (No
+      fragment identification syntax is currently defined for
+      "application/cbor".)
+   Person & email address to contact for further information:  RATS WG
+      mailing list (rats@ietf.org)
+   Intended usage:  COMMON
+   Restrictions on usage:  none
+   Author/Change controller:  IETF
+   Provisional registration:  no
 
-   *  Change Controller: IETF
+7.1.2.  application/measured-component+json
 
-   *  Specification Document(s): Section 3 of RFCthis
+   Type name:  application
+   Subtype name:  measured-component+json
+   Required parameters:  n/a
+   Optional parameters:  n/a
+   Encoding considerations:  binary (JSON is UTF-8-encoded text)
+   Security considerations:  Section 6 of RFCthis
+   Interoperability considerations:  n/a
+   Published specification:  RFCthis
+   Applications that use this media type:  Attesters, Verifiers and
+      Relying Parties
+   Fragment identifier considerations:  The syntax and semantics of
+      fragment identifiers are as specified for "application/json".  (No
+      fragment identification syntax is currently defined for
+      "application/json".)
+   Person & email address to contact for further information:  RATS WG
+      mailing list (rats@ietf.org)
+   Intended usage:  COMMON
+   Restrictions on usage:  none
+   Author/Change controller:  IETF
+   Provisional registration:  no
 
-   The suggested value for the Claim Key is TBD
+7.2.  Measured Component Content-Format Registrations
 
-6.2.  JWT measured-component Claim Registration
+   IANA is requested to register two Content-Format numbers in the "CoAP
+   Content-Formats" sub-registry, within the "Constrained RESTful
+   Environments (CoRE) Parameters" Registry [IANA.core-parameters], as
+   follows:
 
-   IANA is requested to add a new measured-component claim to the "JSON
-   Web Token Claims" sub-registry of the "JSON Web Token (JWT)" registry
-   [IANA.jwt] as follows:
+      +=========================+================+======+===========+
+      | Content-Type            | Content Coding | ID   | Reference |
+      +=========================+================+======+===========+
+      | application/measured-   | -              | TBD1 | RFCthis   |
+      | component+cbor          |                |      |           |
+      +-------------------------+----------------+------+-----------+
+      | application/measured-   | -              | TBD2 | RFCthis   |
+      | component+json          |                |      |           |
+      +-------------------------+----------------+------+-----------+
 
-   *  Claim Name: measured-component
+                                  Table 3
 
-   *  Claim Description: Measured Component
+8.  References
 
-   *  Claim Value Type(s): JSON object
-
-   *  Change Controller: IETF
-
-   *  Specification Document(s): Section 3 of RFCthis
-
-7.  References
-
-7.1.  Normative References
+8.1.  Normative References
 
    [I-D.ietf-cbor-cddl-modules]
               Bormann, C., "CDDL Module Structure", Work in Progress,
@@ -294,16 +417,24 @@ Table of Contents
               January 2024, <https://datatracker.ietf.org/doc/html/
               draft-ietf-rats-eat-25>.
 
-   [IANA.cwt] IANA, "CBOR Web Token (CWT) Claims",
-              <http://www.iana.org/assignments/cwt>.
+   [IANA.core-parameters]
+              IANA, "Constrained RESTful Environments (CoRE)
+              Parameters",
+              <http://www.iana.org/assignments/core-parameters>.
 
-   [IANA.jwt] IANA, "JSON Web Token (JWT)",
-              <http://www.iana.org/assignments/jwt>.
+   [IANA.media-types]
+              IANA, "Media Types",
+              <http://www.iana.org/assignments/media-types>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
+              Application Protocol (CoAP)", RFC 7252,
+              DOI 10.17487/RFC7252, June 2014,
+              <https://www.rfc-editor.org/rfc/rfc7252>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -325,7 +456,7 @@ Table of Contents
               RFC 9393, DOI 10.17487/RFC9393, June 2023,
               <https://www.rfc-editor.org/rfc/rfc9393>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [I-D.tschofenig-rats-psa-token]
               Tschofenig, H., Frost, S., Brossard, M., Shaw, A. L., and
