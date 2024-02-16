@@ -1,1 +1,5 @@
 $measurements-body-cbor /= bytes .cbor measured-component
+$measurements-body-json /= text .b64u measured-component
+
+$measurements-body-json /= text .json measured-component
+$measurements-body-cbor /= text .b64u measured-component

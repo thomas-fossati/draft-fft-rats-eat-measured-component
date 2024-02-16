@@ -110,8 +110,19 @@ The CDDL extending the EAT Measurements format:
 {::include cddl/eat-plug.cddl}
 ~~~
 
-The associated `content-type` MUST contain the CoAP Content-Format assigned by IANA for the `application/measured-component+cbor`.
-When the `content-type` is instead the Content-Format for `application/measured-component+json`, the `content-format` contains the base64url-encoded value of TBD.
+### CWT
+
+| `content-type` (CoAP C-F equivalent) | `content-format` |
+|--|--|
+| `application/measured-component+cbor` | `bytes .cbor measured-component` |
+| `application/measured-component+json` | `text .b64u measured-component` |
+
+### JWT
+
+| `content-type` (CoAP C-F equivalent) | `content-format` |
+|--|--|
+| `application/measured-component+json` | `text .json measured-component` |
+| `application/measured-component+cbor` | `text .b64u measured-component` |
 
 # Examples
 

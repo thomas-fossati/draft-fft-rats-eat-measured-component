@@ -12,8 +12,21 @@ measurements-format = [
 ]
 
 ; $measurements-body-cbor /= bytes .cbor untagged-coswid
+
+; EAT=CBOR, MF=CBOR
 $measurements-body-cbor /= bytes .cbor measured-component
+
+; EAT=CBOR, MF=JSON
+; $measurements-body-json /= text .b64u measured-component
 $measurements-body-json /= base64-url-text
+
+; EAT=JSON, MF=JSON
+$measurements-body-json /= text .json measured-component
+
+; EAT=JSON, MF=CBOR
+; $measurements-body-cbor /= text .b64u measured-component
+$measurements-body-cbor /= base64-url-text
+
 
 Claims-Set = {
   $$Claims-Set-Claims
