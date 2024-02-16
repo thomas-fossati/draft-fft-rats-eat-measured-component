@@ -5,10 +5,10 @@
 Remote ATtestation ProcedureS                                   S. Frost
 Internet-Draft                                                       Arm
 Intended status: Standards Track                              T. Fossati
-Expires: 18 August 2024                                           Linaro
+Expires: 19 August 2024                                           Linaro
                                                            H. Tschofenig
                                                                  Siemens
-                                                        15 February 2024
+                                                        16 February 2024
 
 
                          EAT Measured Component
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 August 2024.
+   This Internet-Draft will expire on 19 August 2024.
 
 Copyright Notice
 
@@ -69,6 +69,8 @@ Table of Contents
    3.  Information Model
    4.  Data Model
      4.1.  CDDL
+       4.1.1.  CWT
+       4.1.2.  JWT
    5.  Examples
    6.  Security Considerations
    7.  IANA Considerations
@@ -219,12 +221,38 @@ Table of Contents
    The CDDL extending the EAT Measurements format:
 
    $measurements-body-cbor /= bytes .cbor measured-component
+   $measurements-body-json /= text .b64u measured-component
 
-   The associated content-type MUST contain the CoAP Content-Format
-   assigned by IANA for the application/measured-component+cbor.  When
-   the content-type is instead the Content-Format for application/
-   measured-component+json, the content-format contains the base64url-
-   encoded value of TBD.
+   $measurements-body-json /= text .json measured-component
+   $measurements-body-cbor /= text .b64u measured-component
+
+4.1.1.  CWT
+
+       +=====================================+====================+
+       | content-type (CoAP C-F equivalent)  | content-format     |
+       +=====================================+====================+
+       | application/measured-component+cbor | bytes .cbor        |
+       |                                     | measured-component |
+       +-------------------------------------+--------------------+
+       | application/measured-component+json | text .b64u         |
+       |                                     | measured-component |
+       +-------------------------------------+--------------------+
+
+                                 Table 2
+
+4.1.2.  JWT
+
+       +=====================================+====================+
+       | content-type (CoAP C-F equivalent)  | content-format     |
+       +=====================================+====================+
+       | application/measured-component+json | text .json         |
+       |                                     | measured-component |
+       +-------------------------------------+--------------------+
+       | application/measured-component+cbor | text .b64u         |
+       |                                     | measured-component |
+       +-------------------------------------+--------------------+
+
+                                 Table 3
 
 5.  Examples
 
@@ -318,7 +346,7 @@ Table of Contents
        | mc+json | application/measured-component+json | RFCthis   |
        +---------+-------------------------------------+-----------+
 
-                  Table 2: Measured Component Media Types
+                  Table 4: Measured Component Media Types
 
 7.1.1.  application/measured-component+cbor
 
@@ -383,7 +411,7 @@ Table of Contents
       | component+json          |                |      |           |
       +-------------------------+----------------+------+-----------+
 
-                                  Table 3
+                                  Table 5
 
 8.  References
 
