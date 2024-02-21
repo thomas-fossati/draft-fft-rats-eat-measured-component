@@ -33,13 +33,13 @@ normative:
   RFC8610: cddl
   RFC9165: cddlplus
   I-D.ietf-cbor-cddl-modules: cddlmod
+  I-D.ietf-cbor-cddl-more-control: cddlctls
   RFC9393: coswid
   I-D.ietf-rats-eat: rats-eat
   I-D.ietf-cose-key-thumbprint: cose-key-thumbprint
   I-D.ietf-rats-corim: corim
 
 informative:
-  RFC9334: rats-arch
   I-D.tschofenig-rats-psa-token: psa-token
 
 entity:
@@ -53,7 +53,7 @@ This document defines a "measured components" format that can be used with the E
 
 # Introduction
 
-{{Section 4.2.6 of -rats-eat}} defines a Measurements claim that:
+{{Section 4.2.16 of -rats-eat}} defines a Measurements claim that:
 
 > "[c]ontains descriptions, lists, evidence or measurements of the software that exists on the entity or any other measurable subsystem of the entity."
 
@@ -66,9 +66,7 @@ This document introduces the "measured components" format that can be used with 
 
 {::boilerplate bcp14-tagged}
 
-In this document, CDDL {{-cddl}} {{-cddlplus}} {{-cddlmod}} is used to describe the data formats.
-
-The reader is assumed to be familiar with the vocabulary and concepts defined in {{-rats-arch}}.
+In this document, CDDL {{-cddl}} {{-cddlplus}} {{-cddlmod}} {{-cddlctls}} is used to describe the data formats.
 
 # Information Model {#measured-component}
 
@@ -126,8 +124,8 @@ The CDDL extending the EAT Measurements format:
 
 # Examples
 
-The examples are CBOR only.
-JSON examples will be added in a future version of this document.
+(The examples are CBOR only.
+JSON examples will be added in a future version of this document.)
 
 The example in {{ex-1}} is a measured component with all the fields populated.
 
@@ -137,7 +135,10 @@ The example in {{ex-1}} is a measured component with all the fields populated.
 {: #ex-1 title="Complete Measured Component"}
 
 The example in {{ex-eat-1}} is the same measured component as above but used as the format of a `measurements` claim in a EAT claims-set.
+
 Note that the example uses a CoAP Content-Format value from the experimental range (65000), which will change to the value assigned by IANA for the `application/measured-component+cbor` Content-Format.
+
+Note also that the array contains only one measured component, but additional entries could be added if the measured TCB is made of multiple, individually measured components.
 
 ~~~ cbor-edn
 {::include cddl/eat-ex1.diag}
