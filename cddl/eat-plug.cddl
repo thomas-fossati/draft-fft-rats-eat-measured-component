@@ -1,5 +1,10 @@
-$measurements-body-cbor /= bytes .cbor measured-component
-$measurements-body-json /= text .b64u measured-component
+$mc-cbor = bstr .cbor measured-component
+$mc-json = tstr .json measured-component
 
-$measurements-body-json /= text .json measured-component
-$measurements-body-cbor /= text .b64u measured-component
+EAT CBOR (`.feature "cbor"`)
+$measurements-body-cbor /= $mc-cbor            ; native
+$measurements-body-cbor /= tstr .b64u $mc-json ; tunnel
+
+; EAT JSON (`.feature "json"`)
+$measurements-body-json /= $mc-json            ; native
+$measurements-body-json /= tstr .b64u $mc-cbor ; tunnel
