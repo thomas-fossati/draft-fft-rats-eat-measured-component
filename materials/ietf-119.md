@@ -80,23 +80,23 @@ measured-component = [
 CBOR & JSON serialisations
 
 ```
-$mc-cbor = bstr .cbor measured-component
-$mc-json = tstr .json measured-component
+mc-cbor = bstr .cbor measured-component
+mc-json = tstr .json measured-component
 ```
 
 EAT CBOR (`.feature "cbor"`)
 
 ```
-$measurements-body-cbor /= $mc-cbor            ; native
-$measurements-body-cbor /= tstr .b64u $mc-json ; tunnel
+$measurements-body-cbor /= mc-cbor            ; native
+$measurements-body-cbor /= tstr .b64u mc-json ; tunnel
 
 ```
 
 EAT JSON (`.feature "json"`)
 
 ```
-$measurements-body-json /= $mc-json            ; native
-$measurements-body-json /= tstr .b64u $mc-cbor ; tunnel
+$measurements-body-json /= mc-json            ; native
+$measurements-body-json /= tstr .b64u mc-cbor ; tunnel
 ```
 
 ---

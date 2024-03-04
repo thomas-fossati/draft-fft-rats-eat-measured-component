@@ -112,15 +112,15 @@ The CDDL extending the EAT Measurements format:
 
 | `content-type` (CoAP C-F equivalent) | `content-format` |
 |--|--|
-| `application/measured-component+cbor` | `bytes .cbor measured-component` |
-| `application/measured-component+json` | `text .b64u measured-component` |
+| `application/measured-component+cbor` | `mc-cbor` |
+| `application/measured-component+json` | `tstr .b64u mc-json` |
 
 ### JWT
 
 | `content-type` (CoAP C-F equivalent) | `content-format` |
 |--|--|
-| `application/measured-component+json` | `text .json measured-component` |
-| `application/measured-component+cbor` | `text .b64u measured-component` |
+| `application/measured-component+json` | `mc-json` |
+| `application/measured-component+cbor` | `tstr .b64u mc-cbor` |
 
 # Examples
 
@@ -283,7 +283,7 @@ The list of currently open issues for this documents can be found at [](https://
 {:numbered="false"}
 
 The authors would like to thank
-TBD
-for their comments, reviews and suggestions.
+Carsten Bormann
+for comments, reviews and suggestions.
 
 [^rfced]: RFC Editor:
