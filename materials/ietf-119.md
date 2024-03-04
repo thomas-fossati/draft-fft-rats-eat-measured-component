@@ -60,6 +60,14 @@ Refactor `psa-software-component` to take into account the recommendations for "
 
 ---
 
+### Measured Component Information Model (cont.)
+
+Anything else? E.g., SVN
+
+^ Machine-comparable, monotonically increasing version of the component where a greater value indicates a newer version. This value MUST increment for every update associated with security-relevant releases
+
+---
+
 # Measured Component Data Model
 
 Reuse COSE Key Thumbprint, CoSWID software name and version, CoRIM digest.
