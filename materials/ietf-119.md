@@ -22,7 +22,7 @@ CoSWID is not a good fit for environments that do not have a file system onto wh
 
 # PSA `Software Components`
 
-Provide its own "measured component" format:
+The PSA profile has defined its own "software components" format:
 
 ```
 psa-software-component = {
@@ -62,7 +62,7 @@ Refactor `psa-software-component` to take into account the recommendations for "
 
 ### Measured Component Information Model (cont.)
 
-Anything else? E.g., SVN
+Anything missing? E.g., SVN
 
 ^ Machine-comparable, monotonically increasing version of the component where a greater value indicates a newer version. This value MUST increment for every update associated with security-relevant releases
 
