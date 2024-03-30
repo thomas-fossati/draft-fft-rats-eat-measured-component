@@ -1,0 +1,11 @@
+component-id = [
+  name:      text
+  ? version: version
+]
+
+;# import $version-scheme from rfc9393 as coswid
+
+version = [
+  val:      text
+  ? scheme: coswid.$version-scheme
+]

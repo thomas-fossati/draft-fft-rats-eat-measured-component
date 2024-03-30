@@ -47,20 +47,26 @@ entity:
 
 --- abstract
 
-This document defines a "measured components" format that can be used with the EAT Measurements claim.
+A measured component is a measurable object of an attester's target environment, that is, an object whose state can be sampled and digested.
+Examples of measured components include the invariant part of firmware that is loaded in memory at startup time, a run-time integrity check, a file system object, or a CPU register.
+
+This document defines a "measured component" format that can be used with the EAT `Measurements` claim.
 
 --- middle
 
 # Introduction
 
-{{Section 4.2.16 of -rats-eat}} defines a Measurements claim that:
+{{Section 4.2.16 of -rats-eat}} defines a `Measurements` claim that:
 
 > "[c]ontains descriptions, lists, evidence or measurements of the software that exists on the entity or any other measurable subsystem of the entity."
 
 This claim allows for different measurement formats, each identified by a different CoAP Content-Format ({{Section 12.3 of -coap}}).
-Initially, the only specified format is CoSWID of type "evidence", as per {{Section 2.9.4 of -coswid}}.
+Currently, the only specified format is CoSWID of type "evidence", as per {{Section 2.9.4 of -coswid}}.
 
-This document introduces the "measured components" format that can be used with the EAT Measurements claim in addition or as an alternative to CoSWID.
+This document introduces a "measured component" format that can be used with the EAT `Measurements` claim in addition to or as an alternative to CoSWID.
+
+The term "measured component" refers to any measurable object on a target environment, that is, an object whose state can be sampled and digested.
+This includes, for example: the invariant part of a firmware component that is loaded in memory at startup time, a run-time integrity check (RTIC), a file system object, or a CPU register.
 
 # Conventions and Definitions
 
@@ -70,57 +76,100 @@ In this document, CDDL {{-cddl}} {{-cddlplus}} {{-cddlmod}} {{-cddlctls}} is use
 
 # Information Model {#measured-component}
 
-A measured component information element includes the computed digest on the software or configuration payload, along with metadata that helps in identifying the measurement and the authorizing entity for component installation.
+A "measured component" information element includes the digest of the component's sampled state along with metadata that helps in identifying the component.
+Optionally, any entities authorized to installing the component on the attester can also be specified.
 
-{{tab-mc-info-elems}} describes the information model of a measured component.
+The information model of a "measured component" is described in {{tab-mc-info-elems}}.
 
 | IE | Description | Requirement Level |
 |----|-------------|-------------------|
-| Component Name | The name given to a measured component. It is important that this name remains consistent across different releases to allow for better tracking of the same measured item across updates. When combined with a consistent versioning scheme, it enables better signaling from the appraisal procedure to the relying parties. | REQUIRED |
-| Component Version | A value representing the specific release or development version of the measured component.  Using Semantic Versioning is RECOMMENDED. | OPTIONAL |
-| Digest Value | Hash of the invariant part of the component that is loaded in memory at startup time. | REQUIRED |
+| Component Name | The name given to the measured component. It is important that this name remains consistent across different releases to allow for better tracking of the same measured item across updates. When combined with a consistent versioning scheme, it enables better signaling from the appraisal procedure to the relying parties. | REQUIRED |
+| Component Version | A value representing the specific release or development version of the measured component.  Using [Semantic Versioning](https://semver.org/spec/v2.0.0.html) is RECOMMENDED. | OPTIONAL |
+| Digest Value | Hash of the measured component. | REQUIRED |
 | Digest Algorithm | Hash algorithm used to compute the Digest Value. | REQUIRED |
-| Signer | A unique identifier of the entity authorizing installation of the measured component. | REQUIRED |
-| Countersigners | One or more unique identifiers of further authorizing entities for component installation | OPTIONAL |
+| Authorizing Entities | One or more unique identifiers of entities authorizing installation of the measured component. | OPTIONAL |
 {: #tab-mc-info-elems title="Measured Component Information Elements"}
 
 # Data Model
 
-The data model is inspired by the "PSA software component" claim ({{Section 4.4.1 of -psa-token}}), which has been slightly refactored to take into account the recommendations about new EAT claims design in {{Appendix E of -rats-eat}}.
-
-The following types and semantics have been reused:
-
-* COSE Key Thumbprint {{-cose-key-thumbprint}}, for signer and countersigners;
-* CoSWID software name and version {{-coswid}}, for component name and version;
-* CoRIM digest {{-corim}}, for digest value and algorithm.
+The data model is inspired by the "PSA software component" claim ({{Section 4.4.1 of -psa-token}}), which has been refactored to take into account the recommendations about new EAT claims design in {{Appendix E of -rats-eat}}.
 
 ## CDDL
 
-The `measured-component` data item:
+### The `measured-component` Data Item
 
 ~~~ cddl
-{::include cddl/measured-component.cddlc}
+{::include cddl/mc.cddl}
 ~~~
 
-The CDDL extending the EAT Measurements format:
+{:vspace}
+`id`
+: The measured component identifier encoded according to the format described in {{component-id}}.
+
+`measurement`
+: Digest value and algorithm, encoded using CoRIM digest format ({{Section 1.3.8 of -corim}}).
+
+`authorizers`
+: One or more authorizing entities, each encoded according to the format described in {{authorizer}}.
+
+#### Component Identifier {#component-id}
+
+~~~ cddl
+{::include cddl/component-id.cddl}
+~~~
+{:vspace}
+
+`name`
+: A string that provides a human readable identifier for the component in question.  Format and adopted conventions depend on the component type.
+
+`version`
+: A compound `version` data item that reuses encoding and semantics of {{-coswid}} `software-version` and `version-scheme`.
+
+#### Authorizer {#authorizer}
+
+An authorizer is the entity that authorizes the installation of the measured component.
+For example, a public key that verifies the signatures on the installed firmware during verified boot.
+
+The supported types are:
+
+* Thumbprint of the authorizing public key using COSE Key Thumbprint {{-cose-key-thumbprint}}.
+
+~~~ cddl
+{::include cddl/authorizer.cddl}
+~~~
+
+### EAT `measurements-format` Extensions
+
+The CDDL in {{fig-eat-plug}} extends the `$measurements-body-cbor` and `$measurements-body-json` EAT sockets to add support for `measured-component`s to the `Measurements` claim.
 
 ~~~ cddl
 {::include cddl/eat-plug.cddl}
 ~~~
+{: #fig-eat-plug title="EAT measurements-format Extensions"}
 
-### CWT
+Each socket is extended with two new types: a "native" representation that is used when `measured-component` and the EAT have the same serialization (e.g., they are both CBOR), and a "tunnel" representation that is used when the serializations differ.
+
+### `measurements-format` for CBOR EAT
+
+The entries in {{tab-mf-cbor}} are the allowed `content-type` / `content-format` pairs when the `measured-component` is carried in a CBOR EAT.
+
+Note the use of the "native" and "tunnel" formats from {{fig-eat-plug}}, and how the associated CoAP Content-Format is used to describe the original serialization.
 
 | `content-type` (CoAP C-F equivalent) | `content-format` |
 |--|--|
 | `application/measured-component+cbor` | `mc-cbor` |
 | `application/measured-component+json` | `tstr .b64u mc-json` |
+{: #tab-mf-cbor title="measurement-format for EAT CWT"}
 
-### JWT
+### `measurements-format` for JSON EAT
+
+{{tab-mf-json}} is the equivalent of {{tab-mf-cbor}} for JSON-serialized EAT.
 
 | `content-type` (CoAP C-F equivalent) | `content-format` |
 |--|--|
 | `application/measured-component+json` | `mc-json` |
 | `application/measured-component+cbor` | `tstr .b64u mc-cbor` |
+{: #tab-mf-json title="measurement-format for EAT JWT"}
 
 # Examples
 
@@ -283,7 +332,10 @@ The list of currently open issues for this documents can be found at [](https://
 {:numbered="false"}
 
 The authors would like to thank
+Carl Wallace,
 Carsten Bormann
-for comments, reviews and suggestions.
+and
+Laurence Lundblade
+for providing comments, reviews and suggestions.
 
 [^rfced]: RFC Editor:

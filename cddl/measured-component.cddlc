@@ -1,9 +1,10 @@
 measured-component = [
   id:               component-id
   measurement:      corim.digest
-  signer:           ckt
-  ? countersigners: [ + ckt ]
+  ? authorizers:    [ + authorizer-type ]
 ]
+
+authorizer-type /= ckt
 
 ; COSE Key Thumbprint
 ckt = bytes
