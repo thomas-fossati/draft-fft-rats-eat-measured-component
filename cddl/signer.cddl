@@ -1,4 +1,4 @@
-authorizer-type /= ckt
+signer-type /= ckt
 
 ; COSE Key Thumbprint
 ckt = bytes

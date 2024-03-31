@@ -34,13 +34,13 @@ normative:
   RFC9165: cddlplus
   I-D.ietf-cbor-cddl-modules: cddlmod
   I-D.ietf-cbor-cddl-more-control: cddlctls
-  RFC9393: coswid
   I-D.ietf-rats-eat: rats-eat
   I-D.ietf-cose-key-thumbprint: cose-key-thumbprint
   I-D.ietf-rats-corim: corim
 
 informative:
   I-D.tschofenig-rats-psa-token: psa-token
+  RFC9393: coswid
 
 entity:
   SELF: "RFCthis"
@@ -77,7 +77,7 @@ In this document, CDDL {{-cddl}} {{-cddlplus}} {{-cddlmod}} {{-cddlctls}} is use
 # Information Model {#measured-component}
 
 A "measured component" information element includes the digest of the component's sampled state along with metadata that helps in identifying the component.
-Optionally, any entities authorized to installing the component on the attester can also be specified.
+Optionally, any entities responsible for signing the installed component can also be specified.
 
 The information model of a "measured component" is described in {{tab-mc-info-elems}}.
 
@@ -87,7 +87,7 @@ The information model of a "measured component" is described in {{tab-mc-info-el
 | Component Version | A value representing the specific release or development version of the measured component.  Using [Semantic Versioning](https://semver.org/spec/v2.0.0.html) is RECOMMENDED. | OPTIONAL |
 | Digest Value | Hash of the measured component. | REQUIRED |
 | Digest Algorithm | Hash algorithm used to compute the Digest Value. | REQUIRED |
-| Authorizing Entities | One or more unique identifiers of entities authorizing installation of the measured component. | OPTIONAL |
+| Signers | One or more unique identifiers of entities signing the measured component. | OPTIONAL |
 {: #tab-mc-info-elems title="Measured Component Information Elements"}
 
 # Data Model
@@ -109,8 +109,8 @@ The data model is inspired by the "PSA software component" claim ({{Section 4.4.
 `measurement`
 : Digest value and algorithm, encoded using CoRIM digest format ({{Section 1.3.8 of -corim}}).
 
-`authorizers`
-: One or more authorizing entities, each encoded according to the format described in {{authorizer}}.
+`signers`
+: One or more signing entities, each encoded according to the format described in {{signer}}.
 
 #### Component Identifier {#component-id}
 
@@ -123,19 +123,19 @@ The data model is inspired by the "PSA software component" claim ({{Section 4.4.
 : A string that provides a human readable identifier for the component in question.  Format and adopted conventions depend on the component type.
 
 `version`
-: A compound `version` data item that reuses encoding and semantics of {{-coswid}} `software-version` and `version-scheme`.
+: A compound `version` data item that reuses encoding and semantics of {{-rats-eat}} `sw-version-type`.
 
-#### Authorizer {#authorizer}
+#### Signer {#signer}
 
-An authorizer is the entity that authorizes the installation of the measured component.
-For example, a public key that verifies the signatures on the installed firmware during verified boot.
+A signer is the entity that digitally signs the measured component.
+It could be an X.509 certificate, a raw public key, or public key thumprint.
 
 The supported types are:
 
-* Thumbprint of the authorizing public key using COSE Key Thumbprint {{-cose-key-thumbprint}}.
+* Thumbprint of the signing public key using COSE Key Thumbprint {{-cose-key-thumbprint}}.
 
 ~~~ cddl
-{::include cddl/authorizer.cddl}
+{::include cddl/signer.cddl}
 ~~~
 
 ### EAT `measurements-format` Extensions
