@@ -314,10 +314,6 @@ IANA is requested to register two Content-Format numbers in the "CoAP Content-Fo
 
 --- back
 
-# Collected CDDL {#collected-cddl}
-
-TODO
-
 # Open Issues
 
 The list of currently open issues for this documents can be found at [](https://github.com/thomas-fossati/draft-fft-rats-eat-measured-component/issues).

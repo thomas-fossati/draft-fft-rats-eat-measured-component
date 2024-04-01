@@ -1,3 +1,5 @@
+;# import digest from RFCYYYY as corim
+
 measured-component = [
   id:           component-id
   measurement:  corim.digest
