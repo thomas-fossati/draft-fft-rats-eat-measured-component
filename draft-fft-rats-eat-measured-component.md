@@ -35,7 +35,6 @@ normative:
   I-D.ietf-cbor-cddl-modules: cddlmod
   I-D.ietf-cbor-cddl-more-control: cddlctls
   I-D.ietf-rats-eat: rats-eat
-  I-D.ietf-cose-key-thumbprint: cose-key-thumbprint
   I-D.ietf-rats-corim: corim
 
 informative:
@@ -94,9 +93,7 @@ The information model of a "measured component" is described in {{tab-mc-info-el
 
 The data model is inspired by the "PSA software component" claim ({{Section 4.4.1 of -psa-token}}), which has been refactored to take into account the recommendations about new EAT claims design in {{Appendix E of -rats-eat}}.
 
-## CDDL
-
-### The `measured-component` Data Item
+## The `measured-component` Data Item
 
 ~~~ cddl
 {::include cddl/mc.cddl}
@@ -110,9 +107,9 @@ The data model is inspired by the "PSA software component" claim ({{Section 4.4.
 : Digest value and algorithm, encoded using CoRIM digest format ({{Section 1.3.8 of -corim}}).
 
 `signers`
-: One or more signing entities, each encoded according to the format described in {{signer}}.
+: One or more signing entities, see {{signer}}.
 
-#### Component Identifier {#component-id}
+### Component Identifier {#component-id}
 
 ~~~ cddl
 {::include cddl/component-id.cddl}
@@ -125,20 +122,19 @@ The data model is inspired by the "PSA software component" claim ({{Section 4.4.
 `version`
 : A compound `version` data item that reuses encoding and semantics of {{-rats-eat}} `sw-version-type`.
 
-#### Signer {#signer}
+### Signer {#signer}
 
-A signer is the entity that digitally signs the measured component.
-It could be an X.509 certificate, a raw public key, or public key thumprint.
-
-The supported types are:
-
-* Thumbprint of the signing public key using COSE Key Thumbprint {{-cose-key-thumbprint}}.
+A signer is an entity that digitally signs the measured component.
+A signer is associated with a public key.
+It could be an X.509 certificate, a raw public key, a public key thumbprint, or some other identifier that can be uniquely associated with the signing entity.
+If an EAT profile ({{Section 6 of -rats-eat}}) uses measured components, it MUST specify whether the `signers` field is used.
+If it is used, the profile MUST also specify how the `signer-type` is interpreted.
 
 ~~~ cddl
 {::include cddl/signer.cddl}
 ~~~
 
-### EAT `measurements-format` Extensions
+## EAT `measurements-format` Extensions
 
 The CDDL in {{fig-eat-plug}} extends the `$measurements-body-cbor` and `$measurements-body-json` EAT sockets to add support for `measured-component`s to the `Measurements` claim.
 
@@ -149,7 +145,7 @@ The CDDL in {{fig-eat-plug}} extends the `$measurements-body-cbor` and `$measure
 
 Each socket is extended with two new types: a "native" representation that is used when `measured-component` and the EAT have the same serialization (e.g., they are both CBOR), and a "tunnel" representation that is used when the serializations differ.
 
-### `measurements-format` for CBOR EAT
+## `measurements-format` for CBOR EAT
 
 The entries in {{tab-mf-cbor}} are the allowed `content-type` / `content-format` pairs when the `measured-component` is carried in a CBOR EAT.
 
@@ -161,7 +157,7 @@ Note the use of the "native" and "tunnel" formats from {{fig-eat-plug}}, and how
 | `application/measured-component+json` | `tstr .b64u mc-json` |
 {: #tab-mf-cbor title="measurement-format for EAT CWT"}
 
-### `measurements-format` for JSON EAT
+## `measurements-format` for JSON EAT
 
 {{tab-mf-json}} is the equivalent of {{tab-mf-cbor}} for JSON-serialized EAT.
 

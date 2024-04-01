@@ -1,5 +1,5 @@
 measured-component = [
-  id:               component-id
-  measurement:      corim.digest
-  ? authorizers:    [ + authorizer-type ]
+  id:           component-id
+  measurement:  corim.digest
+  ? signers:    [ + signer-type ]
 ]
