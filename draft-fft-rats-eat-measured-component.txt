@@ -90,8 +90,7 @@ Table of Contents
    8.  References
      8.1.  Normative References
      8.2.  Informative References
-   Appendix A.  Collected CDDL
-   Appendix B.  Open Issues
+   Appendix A.  Open Issues
    Acknowledgments
    Authors' Addresses
 
@@ -184,6 +183,8 @@ Table of Contents
    claims design in Appendix E of [I-D.ietf-rats-eat].
 
 4.1.  The measured-component Data Item
+
+   ;# import digest from RFCYYYY as corim
 
    measured-component = [
      id:           component-id
@@ -532,11 +533,7 @@ Table of Contents
               RFC 9393, DOI 10.17487/RFC9393, June 2023,
               <https://www.rfc-editor.org/rfc/rfc9393>.
 
-Appendix A.  Collected CDDL
-
-   TODO
-
-Appendix B.  Open Issues
+Appendix A.  Open Issues
 
    The list of currently open issues for this documents can be found at
    https://github.com/thomas-fossati/draft-fft-rats-eat-measured-
