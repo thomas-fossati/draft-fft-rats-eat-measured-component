@@ -81,7 +81,7 @@ Table of Contents
      4.3.  measurements-format for CBOR EAT
      4.4.  measurements-format for JSON EAT
    5.  Examples
-   6.  Security Considerations
+   6.  Security and Privacy Considerations
    7.  IANA Considerations
      7.1.  Media Types Registrations
        7.1.1.  application/measured-component+cbor
@@ -372,9 +372,13 @@ Table of Contents
 
         Figure 3: EAT Measurements Claim using a Measured Component
 
-6.  Security Considerations
+6.  Security and Privacy Considerations
 
-   TODO
+   The Name and Version of a component could provide an attacker with
+   detailed information about the running software and configuration
+   settings of the device.  This information could also expose private
+   details regarding the device.  The stability requirement for the
+   component's Name could potentially enable tracking.
 
 7.  IANA Considerations
 
