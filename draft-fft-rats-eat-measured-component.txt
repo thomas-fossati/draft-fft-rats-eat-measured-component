@@ -5,10 +5,10 @@
 Remote ATtestation ProcedureS                                   S. Frost
 Internet-Draft                                                       Arm
 Intended status: Standards Track                              T. Fossati
-Expires: 3 October 2024                                           Linaro
+Expires: 4 October 2024                                           Linaro
                                                            H. Tschofenig
                                                                  Siemens
-                                                            1 April 2024
+                                                            2 April 2024
 
 
                          EAT Measured Component
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 October 2024.
+   This Internet-Draft will expire on 4 October 2024.
 
 Copyright Notice
 
@@ -221,14 +221,23 @@ Table of Contents
 
 4.1.2.  Signer
 
-   A signer is an entity that digitally signs the measured component.  A
-   signer is associated with a public key.  It could be an X.509
-   certificate, a raw public key, a public key thumbprint, or some other
-   identifier that can be uniquely associated with the signing entity.
+   A signer is an entity that digitally signs the measured component.
+   For example, as in UEFI Secure Boot [UEFI2] and Arm Trusted Board
+   Boot [TBBR-CLIENT].  A signer is associated with a public key.  It
+   could be an X.509 certificate, a raw public key, a public key
+   thumbprint, or some other identifier that can be uniquely associated
+   with the signing entity.  In some cases, multiple parties may need to
+   sign a component to indicate their endorsement or approval.  This
+   could include roles such as a firmware update system, fleet owner, or
+   third-party auditor.  The specific purpose of each signature may
+   depend on the deployment, and the order of signers within the array
+   could indicate meaning.
+
    If an EAT profile (Section 6 of [I-D.ietf-rats-eat]) uses measured
    components, it MUST specify whether the signers field is used.  If it
-   is used, the profile MUST also specify how the signer-type is
-   interpreted.
+   is used, the profile MUST also specify what each of the entries in
+   the signers array represents, and how to interpret the corresponding
+   signer-type.
 
    signer-type = bytes
 
@@ -532,6 +541,16 @@ Table of Contents
               Waltermire, "Concise Software Identification Tags",
               RFC 9393, DOI 10.17487/RFC9393, June 2023,
               <https://www.rfc-editor.org/rfc/rfc9393>.
+
+   [TBBR-CLIENT]
+              Arm Ltd, "Trusted Board Boot Requirements Client (TBBR-
+              CLIENT) Armv8-A", ARM DEN0006D, September 2018,
+              <https://developer.arm.com/documentation/den0006>.
+
+   [UEFI2]    UEFI Forum, Inc., "Unified Extensible Firmware Interface
+              (UEFI) Specification", August 2022,
+              <https://uefi.org/sites/default/files/resources/
+              UEFI_Spec_2_10_Aug29.pdf>.
 
 Appendix A.  Open Issues
 
