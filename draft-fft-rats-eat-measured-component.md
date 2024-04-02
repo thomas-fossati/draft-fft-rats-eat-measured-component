@@ -40,6 +40,22 @@ normative:
 informative:
   I-D.tschofenig-rats-psa-token: psa-token
   RFC9393: coswid
+  UEFI2:
+    title: "Unified Extensible Firmware Interface (UEFI) Specification"
+    author:
+      org: "UEFI Forum, Inc."
+    date: Aug 29, 2022
+    version: Release 2.10
+    format:
+      PDF: https://uefi.org/sites/default/files/resources/UEFI_Spec_2_10_Aug29.pdf
+  TBBR-CLIENT:
+    title: "Trusted Board Boot Requirements Client (TBBR-CLIENT) Armv8-A"
+    author:
+      org: "Arm Ltd"
+    date: Sep 20, 2018
+    target: https://developer.arm.com/documentation/den0006
+    seriesinfo:
+      ARM: DEN0006D
 
 entity:
   SELF: "RFCthis"
@@ -124,11 +140,15 @@ The data model is inspired by the "PSA software component" claim ({{Section 4.4.
 
 ### Signer {#signer}
 
-A signer is an entity that digitally signs the measured component.
+A signer is an entity that digitally signs the measured component. For example, as in UEFI Secure Boot {{UEFI2}} and Arm Trusted Board Boot {{TBBR-CLIENT}}.
 A signer is associated with a public key.
 It could be an X.509 certificate, a raw public key, a public key thumbprint, or some other identifier that can be uniquely associated with the signing entity.
+In some cases, multiple parties may need to sign a component to indicate their endorsement or approval.
+This could include roles such as a firmware update system, fleet owner, or third-party auditor.
+The specific purpose of each signature may depend on the deployment, and the order of signers within the array could indicate meaning.
+
 If an EAT profile ({{Section 6 of -rats-eat}}) uses measured components, it MUST specify whether the `signers` field is used.
-If it is used, the profile MUST also specify how the `signer-type` is interpreted.
+If it is used, the profile MUST also specify what each of the entries in the `signers` array represents, and how to interpret the corresponding `signer-type`.
 
 ~~~ cddl
 {::include cddl/signer.cddl}
