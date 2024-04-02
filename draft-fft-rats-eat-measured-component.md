@@ -210,9 +210,11 @@ Note also that the array contains only one measured component, but additional en
 ~~~
 {: #ex-eat-1 title="EAT Measurements Claim using a Measured Component"}
 
-# Security Considerations {#seccons}
+# Security and Privacy Considerations {#seccons}
 
-TODO
+The Name and Version of a component could provide an attacker with detailed information about the running software and configuration settings of the device.
+This information could also expose private details regarding the device.
+The stability requirement for the component's Name could potentially enable tracking.
 
 # IANA Considerations
 
