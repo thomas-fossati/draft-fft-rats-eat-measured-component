@@ -347,9 +347,10 @@ The list of currently open issues for this documents can be found at [](https://
 
 The authors would like to thank
 Carl Wallace,
-Carsten Bormann
+Carsten Bormann,
+Giridhar Mandyam
 and
 Laurence Lundblade
-for providing comments, reviews and suggestions.
+for providing comments, reviews and suggestions that greatly improved this document.
 
 [^rfced]: RFC Editor:
