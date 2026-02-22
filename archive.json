@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-19T01:14:38.353238+00:00",
+  "timestamp": "2026-02-22T01:13:45.371273+00:00",
   "repo": "ietf-rats-wg/draft-ietf-rats-eat-measured-component",
   "labels": [
     {
@@ -3846,24 +3846,26 @@
       "id": "PR_kwDOLP05f87Dkhyz",
       "title": "acknowledging IESG reviewers",
       "url": "https://github.com/ietf-rats-wg/draft-ietf-rats-eat-measured-component/pull/80",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "We can keep this open while the IESG review is ongoing.",
       "createdAt": "2026-02-13T14:26:46Z",
-      "updatedAt": "2026-02-18T13:50:18Z",
+      "updatedAt": "2026-02-19T20:20:09Z",
       "baseRepository": "ietf-rats-wg/draft-ietf-rats-eat-measured-component",
       "baseRefName": "main",
       "baseRefOid": "8d1df73c0bc43e3c8579c5738e93f99bc11410f8",
       "headRepository": "ietf-rats-wg/draft-ietf-rats-eat-measured-component",
       "headRefName": "ack++",
       "headRefOid": "167829f4b7fdc3d0257c4980f6cf74b7dcb81c03",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-19T20:20:06Z",
+      "mergedAt": "2026-02-19T20:20:06Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "12b2bd15285d8de37afcdf51be5aef2321fa1ca3"
+      },
       "comments": [],
       "reviews": []
     },
@@ -3872,24 +3874,26 @@
       "id": "PR_kwDOLP05f87ENGxp",
       "title": "Clarify authorities non-implication for EAT signer",
       "url": "https://github.com/ietf-rats-wg/draft-ietf-rats-eat-measured-component/pull/81",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "charles-nicas",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Editorial clarification; no wire changes",
       "createdAt": "2026-02-16T22:17:48Z",
-      "updatedAt": "2026-02-17T10:37:44Z",
+      "updatedAt": "2026-02-20T11:00:22Z",
       "baseRepository": "ietf-rats-wg/draft-ietf-rats-eat-measured-component",
       "baseRefName": "main",
       "baseRefOid": "8d1df73c0bc43e3c8579c5738e93f99bc11410f8",
       "headRepository": "charles-nicas/draft-ietf-rats-eat-measured-component",
       "headRefName": "patch-1",
-      "headRefOid": "d4f749fcc1527271f852f18417ef20aae80bbe20",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "f17d160a05daed8c7883d3be879cc1ba8e53543a",
+      "closedAt": "2026-02-20T11:00:22Z",
+      "mergedAt": "2026-02-20T11:00:22Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "7560b529fd77dc9e6d7e126bd41bf6ab1823b7e7"
+      },
       "comments": [],
       "reviews": [
         {
@@ -3950,6 +3954,46 @@
               "updatedAt": "2026-02-17T10:37:44Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOLP05f87kXwGS",
+          "commit": {
+            "abbreviatedOid": "5db4892"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-20T10:57:48Z",
+          "updatedAt": "2026-02-20T10:57:48Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "After further elucubration, I think we can drop this (mostly redundant) bit.",
+              "createdAt": "2026-02-20T10:57:48Z",
+              "updatedAt": "2026-02-20T10:57:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLP05f87kXwku",
+          "commit": {
+            "abbreviatedOid": "5db4892"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-20T10:58:09Z",
+          "updatedAt": "2026-02-20T10:58:09Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\n```",
+              "createdAt": "2026-02-20T10:58:09Z",
+              "updatedAt": "2026-02-20T10:58:09Z"
+            }
+          ]
         }
       ]
     },
@@ -3958,24 +4002,26 @@
       "id": "PR_kwDOLP05f87EkvX9",
       "title": "Mahesh\u2019s IESG review",
       "url": "https://github.com/ietf-rats-wg/draft-ietf-rats-eat-measured-component/pull/82",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Archived-at: https://mailarchive.ietf.org/arch/msg/rats/8oIXuf4Ok-AcBmowoH9fBtMIi7M/",
       "createdAt": "2026-02-18T09:56:53Z",
-      "updatedAt": "2026-02-18T10:26:43Z",
+      "updatedAt": "2026-02-19T20:18:11Z",
       "baseRepository": "ietf-rats-wg/draft-ietf-rats-eat-measured-component",
       "baseRefName": "main",
       "baseRefOid": "8d1df73c0bc43e3c8579c5738e93f99bc11410f8",
       "headRepository": "ietf-rats-wg/draft-ietf-rats-eat-measured-component",
       "headRefName": "mahesh",
       "headRefOid": "577d02e89bc743b8934918faec83eb2a9daff7cd",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-02-19T20:18:08Z",
+      "mergedAt": "2026-02-19T20:18:08Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "a8bcc834b05515ea15912f606a75907b14101db7"
+      },
       "comments": [],
       "reviews": [
         {
