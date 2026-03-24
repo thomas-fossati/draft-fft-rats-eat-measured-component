@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-22T01:13:45.371273+00:00",
+  "timestamp": "2026-03-24T01:09:51.767658+00:00",
   "repo": "ietf-rats-wg/draft-ietf-rats-eat-measured-component",
   "labels": [
     {
@@ -838,6 +838,30 @@
       "updatedAt": "2026-02-04T19:16:31Z",
       "closedAt": "2026-02-04T19:16:30Z",
       "comments": []
+    },
+    {
+      "number": 83,
+      "id": "I_kwDOLP05f871TaG5",
+      "title": "Consider using TCG Concise Evidence Binding, like the OCP Profile for EAT",
+      "url": "https://github.com/ietf-rats-wg/draft-ietf-rats-eat-measured-component/issues/83",
+      "state": "OPEN",
+      "author": "dkumar-nv",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "### Summary\nThis draft introduces a new `measured-component` format to fill the gap that the `measurements` claim in EAT (RFC 9711) supports only CoSWID. While the motivation is valid, a well-established format already exists that addresses this need: [TCG DICE Concise Evidence Binding for SPDM v1.1](https://trustedcomputinggroup.org/wp-content/uploads/TCG-DICE-Concise-Evidence-Binding-for-SPDM-V1.1_pub.pdf) (`concise-evidence`), as seen in [OCP Profile for IETF EAT](https://opencomputeproject.github.io/Security/ietf-eat-profile/HEAD/)\n\n### Background\nThe [TCG DICE Concise Evidence Binding for SPDM (v1.1)](https://trustedcomputinggroup.org/wp-content/uploads/TCG-DICE-Concise-Evidence-Binding-for-SPDM-V1.1_pub.pdf) defines a `concise-evidence` schema that:\n1. Is not limited to filesystem-anchored measurements (it handles early boot, firmware, runtime integrity, SPDM measurement blocks, and more).\n2. Is compatible with the CoRIM schema and designed for IETF RATS-style appraisal workflows.\n\nThe [OCP Profile for IETF EAT](https://opencomputeproject.github.io/Security/ietf-eat-profile/HEAD/) demonstrates that TCG `concise-evidence` can be carried directly as a measurements-format value within an EAT token \u2014 making it applicable beyond SPDM, as a general-purpose format for measurements claim within EAT.\n\n### Concern\n\n1. Introducing a new mechanism creates:\nA. **Fragmentation**: Attesters working across OCP/TCG as well as RATS ecosystems may face pressure to support two distinct measurement encoding formats within EAT.\nB. **Interoperability risk**: Verifiers appraising EAT tokens would need to handle both formats, increasing complexity and the attack surface of the appraisal logic.\n2. `concise-evidence` enables straightforward comparison with CoRIM by making the structure of measurements claim in evidence same as the structure of CoRIM. But with `draft-ietf-rats-eat-measured-component`, the comparison to CoRIM is not straightforward.\n\n### Request\nI request that the authors and WG consider the following:\n1. Acknowledge the existence and applicability of TCG `concise-evidence` as an existing measurements-format for EAT, as demonstrated by the [OCP Profile for IETF EAT](https://opencomputeproject.github.io/Security/ietf-eat-profile/HEAD/). It would be great to see `draft-ietf-rats-eat-measured-component` mention the existing work in its gap analysis.\n2. Evaluate whether the information model is meaningfully distinct from the semantics already encoded in `concise-evidence` (component name, version, digest, algorithm, authority \u2014 these are all present in TCG `concise-evidence`).\n3. Coordinate with TCG DICE WG and OCP Security WG to avoid multiple standards for measurements claim.\n4. Consider friendliness with CoRIM with `draft-ietf-rats-eat-measured-component` to keep verifier implementation straightforward.\n\n### References\n\n- [TCG DICE Concise Evidence Binding for SPDM v1.1](https://trustedcomputinggroup.org/wp-content/uploads/TCG-DICE-Concise-Evidence-Binding-for-SPDM-V1.1_pub.pdf)\n- [OCP Profile for IETF EAT](https://opencomputeproject.github.io/Security/ietf-eat-profile/HEAD/)\n- [RFC 9711, Section 4.2.16 \u2013 Measurements claim](https://rfc-editor.org/rfc/rfc9711#section-4.2.16)",
+      "createdAt": "2026-03-22T09:48:16Z",
+      "updatedAt": "2026-03-23T12:16:17Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ionut-arm",
+          "authorAssociation": "NONE",
+          "body": "Hi!\n\nThank you for the feedback, however the draft is currently in the IETF editor queue, so we're past the point of making functional changes to the document. More than that, it's worth pointing out that, as an extension of EAT, the Measured Component draft came before any attempt to plug the Concise Evidence structure in EAT [0]. (Note that the emails in [0] do not reflect the exact timeframing for the IANA interaction, which would've started maybe a month earlier.) IIUC EAT MC was a trigger towards defining the EAT CE claim in the first place. It does seem like there was a missed opportunity here to flag a potential conflict, as IETF RATS members were also heavily involved in the TCG effort towards DICE CE. The only potential overlap with TCG that we were aware of didn't go anywhere [1].\n\nNonetheless, I wanted to address some of your concerns.\n\n* Fragmentation and interoperability: I agree that there's a minor risk here, but we'd expect some level of translation to happen to all EAT claims anyway, before any processing is done. And the extensibility points for EAT were defined exactly for handling a variety of formats. More than that, some of the semantics of MC do not map neatly onto CE contents. Authorities, for example, mean something different. In CE it's used as a way to convey who is allowed to provide reference values / endorsements for some measurement, while in MC it is used to denote who authorized the thing that was measured to be used on the attester (e.g., a device owner allowing a binary to be executed via some on-device policy).\n\n* Compatibility with CoRIM: The solution here should be fairly simple and inexpensive for a verifier - define and implement an evidence transformation that specifies how to convert an MC to a CoRIM [2].\n\n\n[0] https://mailarchive.ietf.org/arch/msg/media-types/xq4qnV32WV1ABcXVxXXaIX7r02Q/\n[1] https://mailarchive.ietf.org/arch/msg/rats/pdKk9IlqnyjF0scP9QtP391qlOs/\n[2] https://github.com/ietf-rats-wg/draft-ietf-rats-evidence-trans/issues/25",
+          "createdAt": "2026-03-23T12:16:17Z",
+          "updatedAt": "2026-03-23T12:16:17Z"
+        }
+      ]
     }
   ],
   "pulls": [
