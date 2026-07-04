@@ -25,9 +25,13 @@ author:
    organization: Linaro
    email: Thomas.Fossati@linaro.org
  - name: Hannes Tschofenig
-   org: University of Applied Sciences Bonn-Rhein-Sieg
-   abbrev: H-BRS
-   email: Hannes.Tschofenig@gmx.net
+   organization: University of the Bundeswehr Munich
+   abbrev: UniBw M.
+   city: Neubiberg
+   region: Bavaria
+   country: Germany
+   code: 85577
+   email: hannes.tschofenig@gmx.net
  - name: Henk Birkholz
    org: Fraunhofer SIT
    email: henk.birkholz@ietf.contact
